@@ -9,7 +9,7 @@ namespace ASPNETCORE_BlogProject.Entity.Entities
 {
 	public class Image : EntityBase
 	{
-		public int ImageID { get; set; }
+		public Guid ImageID { get; set; }
 		public string FileName { get; set; }
 		public string FileType { get; set; }
 

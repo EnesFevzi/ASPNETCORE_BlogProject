@@ -33,8 +33,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                 name: "Images",
                 columns: table => new
                 {
-                    ImageID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ImageID = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FileType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -76,7 +75,6 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                     ViewCount = table.Column<int>(type: "int", nullable: false),
                     CategoryID = table.Column<int>(type: "int", nullable: false),
                     ImageID = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ImageID1 = table.Column<int>(type: "int", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -95,11 +93,10 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         principalColumn: "CategoryID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Articles_Images_ImageID1",
-                        column: x => x.ImageID1,
+                        name: "FK_Articles_Images_ImageID",
+                        column: x => x.ImageID,
                         principalTable: "Images",
-                        principalColumn: "ImageID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ImageID");
                 });
 
             migrationBuilder.CreateTable(
@@ -128,15 +125,43 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryID", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "IsDeleted", "ModifiedBy", "ModifiedDate", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Admin Test", new DateTime(2023, 10, 4, 20, 49, 17, 346, DateTimeKind.Local).AddTicks(5887), null, null, false, null, null, "ASP.NET Core" },
+                    { 2, "Admin Test", new DateTime(2023, 10, 4, 20, 49, 17, 346, DateTimeKind.Local).AddTicks(5888), null, null, false, null, null, "Visual Studio 2022" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Images",
+                columns: new[] { "ImageID", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "FileName", "FileType", "IsDeleted", "ModifiedBy", "ModifiedDate" },
+                values: new object[,]
+                {
+                    { new Guid("d16a6ec7-8c50-4ab0-89a5-02b9a551f0fa"), "Admin Test", new DateTime(2023, 10, 4, 20, 49, 17, 346, DateTimeKind.Local).AddTicks(5952), null, null, "images/vstest", "png", false, null, null },
+                    { new Guid("f71f4b9a-aa60-461d-b398-de31001bf214"), "Admin Test", new DateTime(2023, 10, 4, 20, 49, 17, 346, DateTimeKind.Local).AddTicks(5950), null, null, "images/testimage", "jpg", false, null, null }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Articles",
+                columns: new[] { "ArticleID", "CategoryID", "Content", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "ImageID", "IsDeleted", "ModifiedBy", "ModifiedDate", "Title", "ViewCount" },
+                values: new object[] { 1, 1, "Asp.net Core Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. Vivamus suscipit tortor eget felis porttitor volutpat. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Sed porttitor lectus nibh. Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur aliquet quam id dui posuere blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt. Pellentesque in ipsum id orci porta dapibus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.", "Admin Test", new DateTime(2023, 10, 4, 20, 49, 17, 346, DateTimeKind.Local).AddTicks(5761), null, null, new Guid("f71f4b9a-aa60-461d-b398-de31001bf214"), false, null, null, "Asp.net Core Deneme Makalesi 1", 15 });
+
+            migrationBuilder.InsertData(
+                table: "Articles",
+                columns: new[] { "ArticleID", "CategoryID", "Content", "CreatedBy", "CreatedDate", "DeletedBy", "DeletedDate", "ImageID", "IsDeleted", "ModifiedBy", "ModifiedDate", "Title", "ViewCount" },
+                values: new object[] { 2, 2, "Visual Studio Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. Vivamus suscipit tortor eget felis porttitor volutpat. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Sed porttitor lectus nibh. Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur aliquet quam id dui posuere blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt. Pellentesque in ipsum id orci porta dapibus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.", "Admin Test", new DateTime(2023, 10, 4, 20, 49, 17, 346, DateTimeKind.Local).AddTicks(5765), null, null, new Guid("d16a6ec7-8c50-4ab0-89a5-02b9a551f0fa"), false, null, null, "Visual Studio Deneme Makalesi 1", 15 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Articles_CategoryID",
                 table: "Articles",
                 column: "CategoryID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Articles_ImageID1",
+                name: "IX_Articles_ImageID",
                 table: "Articles",
-                column: "ImageID1");
+                column: "ImageID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ArticleVisitors_ArticleID",
