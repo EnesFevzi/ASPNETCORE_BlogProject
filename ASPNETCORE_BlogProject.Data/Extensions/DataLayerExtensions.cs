@@ -1,6 +1,7 @@
 ﻿using ASPNETCORE_BlogProject.Data.Context;
 using ASPNETCORE_BlogProject.Data.Repositories.Abstract;
 using ASPNETCORE_BlogProject.Data.Repositories.Concrete;
+using ASPNETCORE_BlogProject.Data.UnıtOfWorks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +21,10 @@ namespace ASPNETCORE_BlogProject.Data.Extensions
 			services.AddDbContext<AppDbContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
 
 			services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-			//services.AddScoped<IAboutDal, EfAboutDal>();
 
-			return services;
+            services.AddScoped<IUnıtOfWork, UnitOfWork>();
+
+            return services;
 
 
 		}

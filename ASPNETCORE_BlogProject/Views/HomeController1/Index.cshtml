@@ -1,8 +1,11 @@
 ﻿
 @model List<ArticleListDto>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -14,3 +17,4 @@
     <h1>@item.Title</h1>
     <h1>@item.Content</h1>
 }
+

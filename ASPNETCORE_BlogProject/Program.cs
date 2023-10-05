@@ -1,4 +1,5 @@
 using ASPNETCORE_BlogProject.Data.Extensions;
+using ASPNETCORE_BlogProject.Service.Extensions;
 using System.Reflection;
 
 namespace ASPNETCORE_BlogProject
@@ -9,14 +10,19 @@ namespace ASPNETCORE_BlogProject
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
-			builder.Services.AddControllersWithViews();
+            // Add services to the container.
+            builder.Services.AddHttpClient();
+            builder.Services.AddAuthorization();
+            builder.Services.AddSession();
+            builder.Services.AddControllersWithViews();
 			builder.Services.LoadDataLayerExtension(builder.Configuration);
-			builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            builder.Services.LoadServiceLayerExtension();
+            builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            //builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 
 
-			var app = builder.Build();
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (!app.Environment.IsDevelopment())

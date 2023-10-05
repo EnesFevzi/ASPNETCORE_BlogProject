@@ -1,4 +1,7 @@
-﻿using ASPNETCORE_BlogProject.Models;
+﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Article;
+using ASPNETCORE_BlogProject.Models;
+using ASPNETCORE_BlogProject.Service.Services.Abstract;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,15 +10,20 @@ namespace ASPNETCORE_BlogProject.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly IArticleService _articleService;
+        private readonly IMapper _mapper;
 
-		public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IArticleService articleService,IMapper mapper)
 		{
 			_logger = logger;
-		}
+			_articleService = articleService;
+            _mapper = mapper;
+        }
 
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			return View();
+			var articles= await _articleService.GetAllArticlesAsync();
+            return View(articles);
 		}
 
 		public IActionResult Privacy()
