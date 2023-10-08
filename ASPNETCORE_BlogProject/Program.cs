@@ -1,5 +1,11 @@
+using ASPNETCORE_BlogProject.Data.Context;
 using ASPNETCORE_BlogProject.Data.Extensions;
+using ASPNETCORE_BlogProject.Entity.Entities;
+using ASPNETCORE_BlogProject.Service.Describers;
 using ASPNETCORE_BlogProject.Service.Extensions;
+using ASPNETCORE_BlogProject.Web.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 namespace ASPNETCORE_BlogProject
@@ -13,22 +19,50 @@ namespace ASPNETCORE_BlogProject
             // Add services to the container.
             builder.Services.AddHttpClient();
             builder.Services.AddAuthorization();
-            builder.Services.AddSession();
+         
             builder.Services.AddControllersWithViews();
 			builder.Services.LoadDataLayerExtension(builder.Configuration);
             builder.Services.LoadServiceLayerExtension();
+            builder.Services.AddSession();
             builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
             //builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+            //builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>().AddErrorDescriber<CustomIdentityValidator>().AddDefaultTokenProviders().AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider).AddEntityFrameworkStores<AppDbContext>();
 
+            builder.Services.AddIdentity<AppUser, AppRole>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireLowercase = false;
+                opt.Password.RequireUppercase = false;
+            })
+             .AddRoleManager<RoleManager<AppRole>>()
+             .AddErrorDescriber<CustomIdentityErrorDescriber>()
+             .AddEntityFrameworkStores<AppDbContext>()
+             .AddDefaultTokenProviders();
+
+            builder.Services.ConfigureApplicationCookie(config =>
+            {
+                config.LoginPath = new PathString("/Admin/Auth/Login");
+                config.LogoutPath = new PathString("/Admin/Auth/Logout");
+                config.Cookie = new CookieBuilder
+                {
+                    Name = "ASPNETCORE_BlogProject",
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.Strict,
+                    SecurePolicy = CookieSecurePolicy.SameAsRequest //Always 
+                };
+                config.SlidingExpiration = true;
+                config.ExpireTimeSpan = TimeSpan.FromDays(7);
+                config.AccessDeniedPath = new PathString("/Admin/Auth/AccessDenied");
+            });
 
             var app = builder.Build();
 
-			// Configure the HTTP request pipeline.
-			if (!app.Environment.IsDevelopment())
-			{
-				app.UseExceptionHandler("/Home/Error");
-				// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            // Configure the HTTP request pipeline.
+            if (!app.Environment.IsDevelopment())
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
 
@@ -36,12 +70,21 @@ namespace ASPNETCORE_BlogProject
 			app.UseStaticFiles();
 
 			app.UseRouting();
-
+            app.UseSession();
+            app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.MapControllerRoute(
-				name: "default",
-				pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapAreaControllerRoute(
+                name: "Admin",
+                areaName: "Admin",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+                endpoints.MapDefaultControllerRoute();
+            });
+
+            
 
 			app.Run();
 		}

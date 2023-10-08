@@ -21,8 +21,8 @@ namespace ASPNETCORE_BlogProject.Entity.Entities
 		public Guid? ImageID { get; set; }
 		public Image Image { get; set; }
 
-		//public Guid UserID { get; set; }
-		//public AppUser User { get; set; }
+		public int UserID { get; set; }
+		public AppUser User { get; set; }
 
 		public ICollection<ArticleVisitor> ArticleVisitors { get; set; }
 
