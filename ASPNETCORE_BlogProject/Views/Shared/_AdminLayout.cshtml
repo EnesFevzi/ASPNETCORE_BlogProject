@@ -46,6 +46,6 @@
     </div>
 
     @await Html.PartialAsync("/Views/_AdminLayoutPartial/PartialScript.cshtml")
-
+    @await RenderSectionAsync("Scripts",false);
 </body>
 </html>

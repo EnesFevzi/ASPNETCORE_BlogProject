@@ -27,29 +27,31 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
 			throw new NotImplementedException();
 		}
 
-		public async Task<List<ArticleListDto>> GetAllArticlesAsync()
+		public async Task<List<ArticleDto>> GetAllArticlesAsync()
 		{
 			var result = await _unitofWork.GetRepository<Article>().GetAllAsync();
-			var map= _mapper.Map<List<ArticleListDto>>(result);
+			var map= _mapper.Map<List<ArticleDto>>(result);
 			return map;
 		}
 
-		public Task<List<ArticleListDto>> GetAllArticlesWithCategoryDeletedAsync()
+		public Task<List<ArticleDto>> GetAllArticlesWithCategoryDeletedAsync()
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<List<ArticleListDto>> GetAllArticlesWithCategoryNonDeletedAsync()
+		public async Task<List<ArticleDto>> GetAllArticlesWithCategoryNonDeletedAsync()
+		{
+            var articles = await _unitofWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted, x => x.Category);
+            var map = _mapper.Map<List<ArticleDto>>(articles);
+            return map;
+        }
+
+		public Task<ArticleDto> GetAllByPagingAsync(int? categoryId, int currentPage = 1, int pageSize = 3, bool isAscending = false)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task<ArticleListDto> GetAllByPagingAsync(int? categoryId, int currentPage = 1, int pageSize = 3, bool isAscending = false)
-		{
-			throw new NotImplementedException();
-		}
-
-		public Task<ArticleListDto> GetArticleWithCategoryNonDeletedAsync(int articleID)
+		public Task<ArticleDto> GetArticleWithCategoryNonDeletedAsync(int articleID)
 		{
 			throw new NotImplementedException();
 		}
@@ -59,7 +61,7 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
 			throw new NotImplementedException();
 		}
 
-		public Task<ArticleListDto> SearchAsync(string keyword, int currentPage = 1, int pageSize = 3, bool isAscending = false)
+		public Task<ArticleDto> SearchAsync(string keyword, int currentPage = 1, int pageSize = 3, bool isAscending = false)
 		{
 			throw new NotImplementedException();
 		}

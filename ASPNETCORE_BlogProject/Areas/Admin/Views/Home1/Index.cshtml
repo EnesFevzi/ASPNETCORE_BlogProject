@@ -1,4 +1,4 @@
-﻿@model List<ArticleListDto>
+﻿@model List<ArticleDto>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -18,7 +18,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@item.ArticleID</td>
+            <td>@item.ID</td>
             <td>@item.Title</td>
             <td>@item.Content</td>
             <td>@item.Category</td>

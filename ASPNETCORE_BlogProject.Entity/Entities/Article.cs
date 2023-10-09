@@ -1,14 +1,9 @@
 ﻿using ASPNETCORE_BlogProject.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+
 
 namespace ASPNETCORE_BlogProject.Entity.Entities
 {
-	public class Article: EntityBase
+    public class Article: EntityBase
 	{
 		public int ArticleID { get; set; }
 		public string Title { get; set; }

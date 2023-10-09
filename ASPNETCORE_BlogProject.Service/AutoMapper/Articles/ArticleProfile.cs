@@ -13,9 +13,9 @@ namespace ASPNETCORE_BlogProject.Service.AutoMapper.Articles
     {
         public ArticleProfile()
         {
-            CreateMap<ArticleListDto, Article>().ReverseMap();
+            CreateMap<ArticleDto, Article>().ReverseMap();
             CreateMap<ArticleUpdateDto, Article>().ReverseMap();
-            CreateMap<ArticleUpdateDto, ArticleListDto>().ReverseMap();
+            CreateMap<ArticleUpdateDto, ArticleDto>().ReverseMap();
             CreateMap<ArticleAddDto, Article>().ReverseMap();
         }
     }
