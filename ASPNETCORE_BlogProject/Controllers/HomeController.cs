@@ -1,4 +1,4 @@
-﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Article;
+﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Articles;
 using ASPNETCORE_BlogProject.Models;
 using ASPNETCORE_BlogProject.Service.Services.Abstract;
 using AutoMapper;

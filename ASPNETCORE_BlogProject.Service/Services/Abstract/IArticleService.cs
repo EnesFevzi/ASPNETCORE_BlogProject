@@ -1,6 +1,6 @@
 ﻿
 
-using ASPNETCORE_BlogProject.Dto.DTO_s.Article;
+using ASPNETCORE_BlogProject.Dto.DTO_s.Articles;
 using ASPNETCORE_BlogProject.Entity.Entities;
 
 namespace ASPNETCORE_BlogProject.Service.Services.Abstract
