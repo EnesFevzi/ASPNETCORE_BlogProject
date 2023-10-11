@@ -5,6 +5,7 @@ using ASPNETCORE_BlogProject.Service.Services.Concrete;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -40,22 +41,35 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(ArticleAddDto articleAddDto)
         {
-            var map =_mapper.Map<Article>(articleAddDto);
-            var result = await _validator.ValidateAsync(map);
 
-            if (result.IsValid)
-            {
-                await _articleService.CreateArticleAsync(articleAddDto);
-                //toast.AddSuccessToastMessage(Messages.Article.Add(articleAddDto.Title), new ToastrOptions { Title = "İşlem Başarılı" });
-                return RedirectToAction("Index", "Article", new { Area = "Admin" });
-            }
-            else
-            {
-                result.AddToModelState(this.ModelState);
-            }
+            await _articleService.CreateArticleAsync(articleAddDto);
+            return RedirectToAction("Index", "Article", new { Area = "Admin" });
 
             var categories = await _categoryService.GetAllCategoriesNonDeleted();
             return View(new ArticleAddDto { Categories = categories });
+        }
+        [HttpGet]
+        public async Task<IActionResult> Update(int articleId)
+        {
+            var article = await _articleService.GetArticleWithCategoryNonDeletedAsync(articleId);
+            var categories = await _categoryService.GetAllCategoriesNonDeleted();
+
+            var articleUpdateDto = _mapper.Map<ArticleUpdateDto>(article);
+            articleUpdateDto.Categories = categories;
+
+            return View(articleUpdateDto);
+        }
+        [HttpPost]
+
+        public async Task<IActionResult> Update(ArticleUpdateDto articleUpdateDto)
+        {
+
+            await _articleService.UpdateArticleAsync(articleUpdateDto);
+            return RedirectToAction("Index", "Article", new { Area = "Admin" });
+
+            var categories = await _categoryService.GetAllCategoriesNonDeleted();
+            articleUpdateDto.Categories = categories;
+            return View(articleUpdateDto);
         }
 
     }

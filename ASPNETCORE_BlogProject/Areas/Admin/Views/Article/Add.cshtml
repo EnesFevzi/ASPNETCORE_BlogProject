@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-div class="container-xxl flex-grow-1 container-p-y">
+
 
 
     <h4 class="fw-bold py-3 mb-4">
@@ -25,7 +25,7 @@ div class="container-xxl flex-grow-1 container-p-y">
                                 Ekle <i class="bx bx-plus"></i>
                             </a>
 
-                            <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id","Name"))"></select>
+                            <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"CategoryID","Name"))"></select>
                             <span asp-validation-for="CategoryId" class="text-danger"></span>
 
                         </div>
