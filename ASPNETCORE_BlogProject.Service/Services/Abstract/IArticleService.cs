@@ -12,7 +12,7 @@ namespace ASPNETCORE_BlogProject.Service.Services.Abstract
 		Task<List<ArticleDto>> GetAllArticlesWithCategoryDeletedAsync();
 		Task<ArticleDto> GetArticleWithCategoryNonDeletedAsync(int articleID);
 		Task CreateArticleAsync(ArticleAddDto articleAddDto);
-		Task UpdateArticleAsync(ArticleUpdateDto articleUpdateDto);
+		Task<string> UpdateArticleAsync(ArticleUpdateDto articleUpdateDto);
 		Task<string> SafeDeleteArticleAsync(int articleID);
 		Task<string> UndoDeleteArticleAsync(int articleID);
 		Task<ArticleDto> GetAllByPagingAsync(int? categoryId, int currentPage = 1, int pageSize = 3,

@@ -47,5 +47,6 @@
 
     @await Html.PartialAsync("/Views/_AdminLayoutPartial/PartialScript.cshtml")
     @await RenderSectionAsync("Scripts",false);
+    @await Component.InvokeAsync("NToastNotify")
 </body>
 </html>

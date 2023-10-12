@@ -1,5 +1,5 @@
 ﻿using ASPNETCORE_BlogProject.Data.UnıtOfWorks;
-using ASPNETCORE_BlogProject.Service.FluentValidation;
+using ASPNETCORE_BlogProject.Service.FluentValidations;
 using ASPNETCORE_BlogProject.Service.Services.Abstract;
 using ASPNETCORE_BlogProject.Service.Services.Concrete;
 using FluentValidation.AspNetCore;

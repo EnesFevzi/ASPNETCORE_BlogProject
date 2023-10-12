@@ -9,7 +9,16 @@ namespace ASPNETCORE_BlogProject.Entity.Entities
 {
 	public class Category : EntityBase
 	{
-		public int CategoryID { get; set; }
+        public Category()
+        {
+
+        }
+        public Category(string name, string createdBy)
+        {
+            Name = name;
+            CreatedBy = createdBy;
+        }
+        public int CategoryID { get; set; }
 		public string Name { get; set; }
 		public ICollection<Article> Articles { get; set; }
 	}

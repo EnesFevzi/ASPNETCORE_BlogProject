@@ -1,12 +1,7 @@
 ﻿using ASPNETCORE_BlogProject.Entity.Entities;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ASPNETCORE_BlogProject.Service.FluentValidation
+namespace ASPNETCORE_BlogProject.Service.FluentValidations
 {
     public class ArticleValidator : AbstractValidator<Article>
     {

@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ASPNETCORE_BlogProject.Entity\ASPNETCORE_BlogProject.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

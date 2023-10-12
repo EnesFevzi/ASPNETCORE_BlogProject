@@ -25,7 +25,8 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
         public async Task CreateArticleAsync(ArticleAddDto articleAddDto)
         {
             var userID = 1;
-            var article = new Article()
+            var ımageID = Guid.Parse("F71F4B9A-AA60-461D-B398-DE31001BF214");
+            var article = new Article(articleAddDto.Title, articleAddDto.Content, userID,"Admin Test", articleAddDto.CategoryId, ımageID)
             {
                 Title = articleAddDto.Title,
                 Content = articleAddDto.Content,
@@ -67,9 +68,16 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             return map;
         }
 
-        public Task<string> SafeDeleteArticleAsync(int articleID)
+        public async Task<string> SafeDeleteArticleAsync(int articleID)
         {
-            throw new NotImplementedException();
+            var article = await _unitofWork.GetRepository<Article>().GetByIDAsync(articleID);
+            article.IsDeleted = true;
+            article.DeletedDate = DateTime.Now;
+
+            await _unitofWork.GetRepository<Article>().UpdateAsync(article);
+            await _unitofWork.SaveAsync();
+
+            return article.Title;
         }
 
         public Task<ArticleDto> SearchAsync(string keyword, int currentPage = 1, int pageSize = 3, bool isAscending = false)
@@ -82,7 +90,7 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public async Task UpdateArticleAsync(ArticleUpdateDto articleUpdateDto)
+        public async Task<string>UpdateArticleAsync(ArticleUpdateDto articleUpdateDto)
         {
             var article = await _unitofWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted && x.ArticleID == articleUpdateDto.ArticleID, x => x.Category);
 
@@ -92,6 +100,8 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
 
             await _unitofWork.GetRepository<Article>().UpdateAsync(article);
             await _unitofWork.SaveAsync();
+
+            return article.Title;
 
         }   
     }

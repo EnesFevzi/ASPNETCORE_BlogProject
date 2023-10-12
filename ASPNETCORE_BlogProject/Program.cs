@@ -6,6 +6,7 @@ using ASPNETCORE_BlogProject.Service.Extensions;
 using ASPNETCORE_BlogProject.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using System.Reflection;
 
 namespace ASPNETCORE_BlogProject
@@ -24,7 +25,13 @@ namespace ASPNETCORE_BlogProject
 			builder.Services.LoadDataLayerExtension(builder.Configuration);
             builder.Services.LoadServiceLayerExtension();
             builder.Services.AddSession();
-            builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            builder.Services.AddControllersWithViews()
+                 .AddNToastNotifyToastr(new ToastrOptions()
+                 {
+                     PositionClass = ToastPositions.TopRight,
+                     TimeOut = 3000,
+                 })
+             .AddRazorRuntimeCompilation();
             //builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
             //builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>().AddErrorDescriber<CustomIdentityValidator>().AddDefaultTokenProviders().AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider).AddEntityFrameworkStores<AppDbContext>();
@@ -65,7 +72,7 @@ namespace ASPNETCORE_BlogProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 				app.UseHsts();
 			}
-
+            app.UseNToastNotify();
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
 
@@ -81,7 +88,10 @@ namespace ASPNETCORE_BlogProject
                 areaName: "Admin",
                 pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
                 );
-                endpoints.MapDefaultControllerRoute();
+
+                app.MapControllerRoute(
+                 name: "default",
+                 pattern: "{controller=Ana}/{action=Index}/{id?}");
             });
 
             

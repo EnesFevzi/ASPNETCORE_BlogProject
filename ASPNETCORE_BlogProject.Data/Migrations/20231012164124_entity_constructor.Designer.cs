@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASPNETCORE_BlogProject.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231008182155_mig_add_indentity_2")]
-    partial class mig_add_indentity_2
+    [Migration("20231012164124_entity_constructor")]
+    partial class entity_constructor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,21 +57,21 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "c673f9f1-a733-4fe1-b2ba-bdd9c6123dff",
+                            ConcurrencyStamp = "817890d1-abbb-4f9b-b054-e5cc8e067b90",
                             Name = "Superadmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "7094187e-6168-460b-a98c-369e61027ef8",
+                            ConcurrencyStamp = "98645748-bcaf-48ff-905b-c080708314ac",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 3,
-                            ConcurrencyStamp = "11d96d55-749d-40b9-8a4d-4ffb7c8c769c",
+                            ConcurrencyStamp = "2f2834f4-8379-4e7e-86f1-a8d1de86abb8",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -186,7 +186,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "14df5381-25d8-49cb-a35b-e9729ce40b7e",
+                            ConcurrencyStamp = "42f5764a-76b6-4bee-9540-2546904e1563",
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Cem",
@@ -195,10 +195,10 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFPBuhImpcLLX1g7c79ADbplDlqqVsrOPdoh2a/OASeRemc8aLxDS5j4U3vddHUioA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOllUMNenTgdeZQD7fsQAP37qIOYENRpK7X6peDDYO9KtGhwDwf0c6GDd9l5Vz3KhQ==",
                             PhoneNumber = "+905439999999",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "e39dd091-1789-4836-a218-bd3b66c2ce12",
+                            SecurityStamp = "c848df12-aa43-43dc-9708-4d360ac0fe68",
                             TwoFactorEnabled = false,
                             UserName = "superadmin@gmail.com"
                         },
@@ -206,7 +206,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c03c6a6-e5c8-4c64-98a6-95942fa177fc",
+                            ConcurrencyStamp = "e5d00db8-9f0a-480f-9688-891ec553be21",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -215,10 +215,10 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAED9IWRImyn7G7/6QXPtfQxGx+qX/Sx5Mg3Cn2FKt5PK0MHuWt1ewbS5nRkub8JYmUw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELQ50KztVuZOUPvtPtW5RasNHV3hYjQVZASfHt3OMjbg6l04zGYsDercWGUXZvoUBg==",
                             PhoneNumber = "+905439999988",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "cddab22b-32ff-4a15-be9b-461eccb7316d",
+                            SecurityStamp = "f1d4326d-77fe-473a-9bb1-5af88f7d1314",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -384,7 +384,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                             CategoryID = 1,
                             Content = "Asp.net Core Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. Vivamus suscipit tortor eget felis porttitor volutpat. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Sed porttitor lectus nibh. Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur aliquet quam id dui posuere blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt. Pellentesque in ipsum id orci porta dapibus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.",
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2023, 10, 8, 21, 21, 55, 260, DateTimeKind.Local).AddTicks(7284),
+                            CreatedDate = new DateTime(2023, 10, 12, 19, 41, 23, 876, DateTimeKind.Local).AddTicks(1677),
                             ImageID = new Guid("f71f4b9a-aa60-461d-b398-de31001bf214"),
                             IsDeleted = false,
                             Title = "Asp.net Core Deneme Makalesi 1",
@@ -397,7 +397,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                             CategoryID = 2,
                             Content = "Visual Studio Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. Vivamus suscipit tortor eget felis porttitor volutpat. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Sed porttitor lectus nibh. Nulla porttitor accumsan tincidunt. Proin eget tortor risus. Donec rutrum congue leo eget malesuada. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Sed porttitor lectus nibh. Curabitur aliquet quam id dui posuere blandit. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur aliquet quam id dui posuere blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla porttitor accumsan tincidunt. Pellentesque in ipsum id orci porta dapibus. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.",
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2023, 10, 8, 21, 21, 55, 260, DateTimeKind.Local).AddTicks(7288),
+                            CreatedDate = new DateTime(2023, 10, 12, 19, 41, 23, 876, DateTimeKind.Local).AddTicks(1686),
                             ImageID = new Guid("d16a6ec7-8c50-4ab0-89a5-02b9a551f0fa"),
                             IsDeleted = false,
                             Title = "Visual Studio Deneme Makalesi 1",
@@ -408,21 +408,13 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
 
             modelBuilder.Entity("ASPNETCORE_BlogProject.Entity.Entities.ArticleVisitor", b =>
                 {
-                    b.Property<int>("ArticleVisitorID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ArticleVisitorID"), 1L, 1);
-
                     b.Property<int>("ArticleID")
                         .HasColumnType("int");
 
                     b.Property<int>("VisitorID")
                         .HasColumnType("int");
 
-                    b.HasKey("ArticleVisitorID");
-
-                    b.HasIndex("ArticleID");
+                    b.HasKey("ArticleID", "VisitorID");
 
                     b.HasIndex("VisitorID");
 
@@ -472,7 +464,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         {
                             CategoryID = 1,
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2023, 10, 8, 21, 21, 55, 260, DateTimeKind.Local).AddTicks(7411),
+                            CreatedDate = new DateTime(2023, 10, 12, 19, 41, 23, 876, DateTimeKind.Local).AddTicks(2982),
                             IsDeleted = false,
                             Name = "ASP.NET Core"
                         },
@@ -480,7 +472,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         {
                             CategoryID = 2,
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2023, 10, 8, 21, 21, 55, 260, DateTimeKind.Local).AddTicks(7413),
+                            CreatedDate = new DateTime(2023, 10, 12, 19, 41, 23, 876, DateTimeKind.Local).AddTicks(2984),
                             IsDeleted = false,
                             Name = "Visual Studio 2022"
                         });
@@ -531,7 +523,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         {
                             ImageID = new Guid("f71f4b9a-aa60-461d-b398-de31001bf214"),
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2023, 10, 8, 21, 21, 55, 260, DateTimeKind.Local).AddTicks(7475),
+                            CreatedDate = new DateTime(2023, 10, 12, 19, 41, 23, 876, DateTimeKind.Local).AddTicks(3104),
                             FileName = "images/testimage",
                             FileType = "jpg",
                             IsDeleted = false
@@ -540,7 +532,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
                         {
                             ImageID = new Guid("d16a6ec7-8c50-4ab0-89a5-02b9a551f0fa"),
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2023, 10, 8, 21, 21, 55, 260, DateTimeKind.Local).AddTicks(7477),
+                            CreatedDate = new DateTime(2023, 10, 12, 19, 41, 23, 876, DateTimeKind.Local).AddTicks(3107),
                             FileName = "images/vstest",
                             FileType = "png",
                             IsDeleted = false
@@ -583,7 +575,7 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
             modelBuilder.Entity("ASPNETCORE_BlogProject.Entity.Entities.AppUser", b =>
                 {
                     b.HasOne("ASPNETCORE_BlogProject.Entity.Entities.Image", "Image")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("ImageID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -695,6 +687,8 @@ namespace ASPNETCORE_BlogProject.Data.Migrations
             modelBuilder.Entity("ASPNETCORE_BlogProject.Entity.Entities.Image", b =>
                 {
                     b.Navigation("Articles");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("ASPNETCORE_BlogProject.Entity.Entities.Visitor", b =>
