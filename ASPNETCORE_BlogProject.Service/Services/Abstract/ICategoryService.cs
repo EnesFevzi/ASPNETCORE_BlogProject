@@ -1,4 +1,4 @@
-﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Category;
+﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Categories;
 using ASPNETCORE_BlogProject.Entity.Entities;
 
 namespace ASPNETCORE_BlogProject.Service.Services.Abstract
@@ -8,10 +8,10 @@ namespace ASPNETCORE_BlogProject.Service.Services.Abstract
         Task<List<CategoryDto>> GetAllCategoriesNonDeleted();
         Task<List<CategoryDto>> GetAllCategoriesNonDeletedTake24();
         Task<List<CategoryDto>> GetAllCategoriesDeleted();
-        //Task CreateCategoryAsync(CategoryAddDto categoryAddDto);
-        //Task<Category> GetCategoryByGuid(Guid id);
-        //Task<string> UpdateCategoryAsync(CategoryUpdateDto categoryUpdateDto);
-        //Task<string> SafeDeleteCategoryAsync(Guid categoryId);
-        //Task<string> UndoDeleteCategoryAsync(Guid categoryId);
+        Task CreateCategoryAsync(CategoryAddDto categoryAddDto);
+        Task<CategoryDto> GetCategoryByID(int id);
+        Task<string> UpdateCategoryAsync(CategoryUpdateDto categoryUpdateDto);
+        Task<string> SafeDeleteCategoryAsync(int categoryId);
+        Task<string> UndoDeleteCategoryAsync(int categoryId);
     }
 }

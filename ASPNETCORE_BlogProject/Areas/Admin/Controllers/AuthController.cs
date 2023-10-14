@@ -34,7 +34,7 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
                     var result = await signInManager.PasswordSignInAsync(user, userLoginDto.Password, userLoginDto.RememberMe, false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", "Home", new { Area = "Admin" });
+                        return RedirectToAction("Index", "Article", new { Area = "Admin" });
                     }
                     else
                     {

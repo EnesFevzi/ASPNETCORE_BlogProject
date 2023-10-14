@@ -21,14 +21,18 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         private readonly IValidator<Article> _validator;
         private readonly IMapper _mapper;
         private readonly IToastNotification _toastNotification;
+      
 
-        public ArticleController(IArticleService articleService, ICategoryService categoryService, IValidator<Article> validator, IMapper mapper, IToastNotification toastNotification)
+        public ArticleController(IArticleService articleService, ICategoryService categoryService, IValidator<Article> validator, IMapper mapper, IToastNotification toastNotification
+
+            )
         {
             _articleService = articleService;
             _categoryService = categoryService;
             _validator = validator;
             _mapper = mapper;
             _toastNotification = toastNotification;
+
         }
 
         public async Task<IActionResult> Index()

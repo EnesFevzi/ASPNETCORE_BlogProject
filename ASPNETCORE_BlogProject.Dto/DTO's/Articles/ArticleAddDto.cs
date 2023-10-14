@@ -1,4 +1,4 @@
-﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Category;
+﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Categories;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ASPNETCORE_BlogProject.Dto.DTO_s.Category
+namespace ASPNETCORE_BlogProject.Dto.DTO_s.Categories
 {
     public class CategoryDto
     {

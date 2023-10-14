@@ -26,6 +26,7 @@ namespace ASPNETCORE_BlogProject
             builder.Services.LoadServiceLayerExtension();
             builder.Services.AddSession();
             builder.Services.AddControllersWithViews()
+
                  .AddNToastNotifyToastr(new ToastrOptions()
                  {
                      PositionClass = ToastPositions.TopRight,
@@ -91,11 +92,8 @@ namespace ASPNETCORE_BlogProject
 
                 app.MapControllerRoute(
                  name: "default",
-                 pattern: "{controller=Ana}/{action=Index}/{id?}");
+                 pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            
-
 			app.Run();
 		}
 	}

@@ -1,8 +1,10 @@
 ﻿using ASPNETCORE_BlogProject.Data.UnıtOfWorks;
 using ASPNETCORE_BlogProject.Service.FluentValidations;
+using ASPNETCORE_BlogProject.Service.Helpers.Images;
 using ASPNETCORE_BlogProject.Service.Services.Abstract;
 using ASPNETCORE_BlogProject.Service.Services.Concrete;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,10 @@ namespace ASPNETCORE_BlogProject.Service.Extensions
             var assembly = Assembly.GetExecutingAssembly();
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IImageHelper, ImageHelper>();
             services.AddAutoMapper(assembly);
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddControllersWithViews()
                 .AddFluentValidation(opt =>
