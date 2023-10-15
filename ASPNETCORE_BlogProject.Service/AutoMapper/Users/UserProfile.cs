@@ -14,7 +14,7 @@ namespace ASPNETCORE_BlogProject.Service.AutoMapper.Users
         public UserProfile()
         {
             CreateMap<AppUser, UserListDto>().ReverseMap();
-            //CreateMap<AppUser, UserAddDto>().ReverseMap();
+            CreateMap<AppUser, UserAddDto>().ReverseMap();
             //CreateMap<AppUser, UserUpdateDto>().ReverseMap();
             //CreateMap<AppUser, UserProfileDto>().ReverseMap();
 

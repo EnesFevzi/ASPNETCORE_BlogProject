@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ASPNETCORE_BlogProject.Entity.Entities
 {
-    public class AppRole:IdentityRole<int>
+    public class AppRole : IdentityRole<int>
     {
     }
 }
