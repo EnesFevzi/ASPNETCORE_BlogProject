@@ -31,16 +31,25 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
                 var user = await userManager.FindByEmailAsync(userLoginDto.Email);
                 if (user != null)
                 {
-                    var result = await signInManager.PasswordSignInAsync(user, userLoginDto.Password, userLoginDto.RememberMe, false);
-                    if (result.Succeeded)
+                    if (userLoginDto.Password != null)
                     {
-                        return RedirectToAction("Index", "Article", new { Area = "Admin" });
+                        var result = await signInManager.PasswordSignInAsync(user, userLoginDto.Password, userLoginDto.RememberMe, false);
+                        if (result.Succeeded)
+                        {
+                            return RedirectToAction("Index", "Article", new { Area = "Admin" });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "E-posta adresiniz veya şifreniz yanlıştır.");
+                            return View();
+                        }
                     }
-                    else
+                    else 
                     {
                         ModelState.AddModelError("", "E-posta adresiniz veya şifreniz yanlıştır.");
                         return View();
                     }
+  
                 }
                 else
                 {
