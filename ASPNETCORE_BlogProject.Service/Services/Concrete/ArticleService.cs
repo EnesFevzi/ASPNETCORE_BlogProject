@@ -57,9 +57,11 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             return map;
         }
 
-        public Task<List<ArticleDto>> GetAllArticlesWithCategoryDeletedAsync()
+        public async Task<List<ArticleDto>> GetAllArticlesWithCategoryDeletedAsync()
         {
-            throw new NotImplementedException();
+            var articles = await _unitofWork.GetRepository<Article>().GetAllAsync(x => x.IsDeleted, x => x.Category);
+            var map = _mapper.Map<List<ArticleDto>>(articles);
+            return map;
         }
 
         public async Task<List<ArticleDto>> GetAllArticlesWithCategoryNonDeletedAsync()
@@ -88,9 +90,16 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             throw new NotImplementedException();
         }
 
-        public Task<string> UndoDeleteArticleAsync(int articleID)
+        public async Task<string> UndoDeleteArticleAsync(int articleID)
         {
-            throw new NotImplementedException();
+            var article = await _unitofWork.GetRepository<Article>().GetByIDAsync(articleID);
+            article.IsDeleted = false;
+            article.DeletedDate = null;
+            article.DeletedBy = null;
+            await _unitofWork.GetRepository<Article>().UpdateAsync(article);
+            await _unitofWork.SaveAsync();
+
+            return article.Title;
         }
 
         public async Task<string>UpdateArticleAsync(ArticleUpdateDto articleUpdateDto)

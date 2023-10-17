@@ -33,6 +33,11 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             var categories = await _categoryService.GetAllCategoriesNonDeleted();
             return View(categories);
         }
+        public async Task<IActionResult> DeletedCategory()
+        {
+            var categories = await _categoryService.GetAllCategoriesDeleted();
+            return View(categories);
+        }
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -108,6 +113,11 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             _toastNotification.AddSuccessToastMessage(Messages.Category.Delete(title), new ToastrOptions() { Title = "İşlem Başarılı" });
             return RedirectToAction("Index", "Category", new { Area = "Admin" });
         }
-
+        public async Task<IActionResult> UndoDelete(int categoryID)
+        {
+            var title = await _categoryService.UndoDeleteCategoryAsync(categoryID);
+            _toastNotification.AddSuccessToastMessage(Messages.Category.UndoDelete(title), new ToastrOptions() { Title = "İşlem Başarılı" });
+            return RedirectToAction("Index", "Category", new { Area = "Admin" });
+        }
     }
 }

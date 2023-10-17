@@ -33,9 +33,6 @@ namespace ASPNETCORE_BlogProject
                      TimeOut = 3000,
                  })
              .AddRazorRuntimeCompilation();
-            //builder.Services.AddAutoMapper(typeof(Program).Assembly);
-
-            //builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<AppDbContext>().AddErrorDescriber<CustomIdentityValidator>().AddDefaultTokenProviders().AddTokenProvider<DataProtectorTokenProvider<AppUser>>(TokenOptions.DefaultProvider).AddEntityFrameworkStores<AppDbContext>();
 
             builder.Services.AddIdentity<AppUser, AppRole>(opt =>
             {

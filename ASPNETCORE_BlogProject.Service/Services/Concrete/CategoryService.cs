@@ -12,7 +12,7 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
 {
     public class CategoryService : ICategoryService
     {
-        private readonly IUnıtOfWork  _unıtOfWork;
+        private readonly IUnıtOfWork _unıtOfWork;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
         private readonly ClaimsPrincipal _user;
@@ -58,7 +58,7 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
 
         public async Task<CategoryDto> GetCategoryByID(int id)
         {
-            var categories = await _unıtOfWork.GetRepository<Category>().GetAsync(x=>x.CategoryID == id);
+            var categories = await _unıtOfWork.GetRepository<Category>().GetAsync(x => x.CategoryID == id);
             var map = _mapper.Map<CategoryDto>(categories);
             return map;
         }
@@ -76,9 +76,16 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             return category.Name;
         }
 
-        public Task<string> UndoDeleteCategoryAsync(int categoryId)
+        public async Task<string> UndoDeleteCategoryAsync(int categoryId)
         {
-            throw new NotImplementedException();
+            var category = await _unıtOfWork.GetRepository<Category>().GetByIDAsync(categoryId);
+            category.IsDeleted = false;
+            category.DeletedDate = null;
+            category.DeletedBy = null;
+            await _unıtOfWork.GetRepository<Category>().UpdateAsync(category);
+            await _unıtOfWork.SaveAsync();
+
+            return category.Name;
         }
 
         public async Task<string> UpdateCategoryAsync(CategoryUpdateDto categoryUpdateDto)
