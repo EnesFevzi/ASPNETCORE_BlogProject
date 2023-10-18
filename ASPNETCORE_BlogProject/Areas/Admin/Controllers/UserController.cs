@@ -1,18 +1,18 @@
 ﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Users;
 using ASPNETCORE_BlogProject.Entity.Entities;
+using ASPNETCORE_BlogProject.Entity.Enums;
+using ASPNETCORE_BlogProject.Service.Extensions;
+using ASPNETCORE_BlogProject.Service.Services.Abstract;
+using ASPNETCORE_BlogProject.Service.Services.Concrete;
 using ASPNETCORE_BlogProject.Web.ResultMessages;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Model;
-using System.Data;
-using FluentValidation;
-using ASPNETCORE_BlogProject.Service.Extensions;
-using static ASPNETCORE_BlogProject.Web.ResultMessages.Messages;
-using ASPNETCORE_BlogProject.Dto.DTO_s.Articles;
 using System.ComponentModel.DataAnnotations;
+using static ASPNETCORE_BlogProject.Web.ResultMessages.Messages;
 
 namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
 {
@@ -24,34 +24,28 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         private readonly IMapper _mapper;
         private readonly IToastNotification _toastNotification;
         private readonly IValidator<AppUser> _validator;
+        private readonly IUserService _userService;
 
-        public UserController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IToastNotification toastNotification, IValidator<AppUser> validator)
+        public UserController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IToastNotification toastNotification, IValidator<AppUser> validator, IUserService userService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
             _toastNotification = toastNotification;
             _validator = validator;
+            _userService = userService;
+
         }
 
         public async Task<IActionResult> Index()
         {
-            var users = await _userManager.Users.ToListAsync();
-            var map = _mapper.Map<List<UserListDto>>(users);
-
-            foreach (var item in map)
-            {
-                var findUser = await _userManager.FindByIdAsync(item.Id.ToString());
-                var role = string.Join("", await _userManager.GetRolesAsync(findUser));
-
-                item.Role = role;
-            }
-            return View(map);
+            var result = await _userService.GetAllUsersWithRoleAsync();
+            return View(result);
         }
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            var roles = await _roleManager.Roles.ToListAsync();
+            var roles = await _userService.GetAllRolesAsync();
 
             return View(new UserAddDto { Roles = roles });
         }
@@ -63,13 +57,9 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             var roles = await _roleManager.Roles.ToListAsync();
             if (ModelState.IsValid)
             {
-                map.UserName = userAddDto.Email;
-                var result = await _userManager.CreateAsync(map, string.IsNullOrEmpty(userAddDto.Password) ? "" : userAddDto.Password);
+                var result = await _userService.CreateUserAsync(userAddDto);
                 if (result.Succeeded)
                 {
-
-                    var findRole = await _roleManager.FindByIdAsync(userAddDto.RoleId.ToString());
-                    await _userManager.AddToRoleAsync(map, findRole.ToString());
                     _toastNotification.AddSuccessToastMessage(Messages.User.Add(userAddDto.Email), new ToastrOptions { Title = "İşlem Başarılı" });
                     return RedirectToAction("Index", "User", new { Area = "Admin" });
                 }
@@ -86,8 +76,8 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            var roles = await _roleManager.Roles.ToListAsync();
+            var user = await _userService.GetAppUserByIdAsync(userId);
+            var roles = await _userService.GetAllRolesAsync();
             var map = _mapper.Map<UserUpdateDto>(user);
             map.Roles = roles;
             return View(map);
@@ -95,11 +85,11 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
         {
-            var user = await _userManager.FindByIdAsync(userUpdateDto.Id.ToString());
+            var user = await _userService.GetAppUserByIdAsync(userUpdateDto.Id);
+
             if (user != null)
             {
-                var userRole = string.Join("", await _userManager.GetRolesAsync(user));
-                var roles = await _roleManager.Roles.ToListAsync();
+                var roles = await _userService.GetAllRolesAsync();
                 if (ModelState.IsValid)
                 {
                     var map = _mapper.Map(userUpdateDto, user);
@@ -109,12 +99,9 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
                     {
                         user.UserName = userUpdateDto.Email;
                         user.SecurityStamp = Guid.NewGuid().ToString();
-                        var result = await _userManager.UpdateAsync(user);
+                        var result = await _userService.UpdateUserAsync(userUpdateDto);
                         if (result.Succeeded)
                         {
-                            await _userManager.RemoveFromRoleAsync(user,userRole);
-                            var findRole = await _roleManager.FindByIdAsync(userUpdateDto.RoleId.ToString());
-                            await _userManager.AddToRoleAsync(user, findRole.Name);
                             _toastNotification.AddSuccessToastMessage(Messages.User.Update(userUpdateDto.Email), new ToastrOptions { Title = "İşlem Başarılı" });
                             return RedirectToAction("Index", "User", new { Area = "Admin" });
                         }
@@ -135,22 +122,101 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         }
         public async Task<IActionResult> Delete(int userId)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            if (user != null)
-            {
-                var result = await _userManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    _toastNotification.AddSuccessToastMessage(Messages.User.Update(user.Email), new ToastrOptions { Title = "İşlem Başarılı" });
-                    return RedirectToAction("Index", "User", new { Area = "Admin" });
-                }
-                else
-                {
-                    result.AddToIdentityModelState(this.ModelState);
-                }
-            }
+            var result = await _userService.DeleteUserAsync(userId);
 
+            if (result.identityResult.Succeeded)
+            {
+                _toastNotification.AddSuccessToastMessage(Messages.User.Delete(result.email), new ToastrOptions { Title = "İşlem Başarılı" });
+                return RedirectToAction("Index", "User", new { Area = "Admin" });
+            }
+            else
+            {
+                result.identityResult.AddToIdentityModelState(this.ModelState);
+            }
             return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            //var user = await _userManager.GetUserAsync(HttpContext.User);
+            //var getImage = await _unıtOfWork.GetRepository<AppUser>().GetAsync(x => x.Id == user.Id,x=>x.Image);
+            //var map = _mapper.Map<UserProfileDto>(user);
+            //map.Image.FileName=getImage.Image.FileName;
+
+            //return View(map);
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Profile(UserProfileDto userProfileDto)
+        {
+            //var user = await _userManager.GetUserAsync(HttpContext.User);
+            //if (ModelState.IsValid)
+            //{
+            //    if (userProfileDto.CurrentPassword != null)
+            //    {
+            //        var isVierified = await _userManager.CheckPasswordAsync(user, userProfileDto.CurrentPassword);
+            //        if (isVierified && userProfileDto.NewPassword != null)
+            //        {
+            //            var result = await _userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
+            //            if (result.Succeeded)
+            //            {
+            //                await _userManager.UpdateSecurityStampAsync(user);
+            //                await _signInManager.SignOutAsync();
+            //                await _signInManager.PasswordSignInAsync(user, userProfileDto.NewPassword, true, false);
+
+            //                user.FirstName = userProfileDto.FirstName;
+            //                user.LastName = userProfileDto.LastName;
+            //                user.PhoneNumber = userProfileDto.PhoneNumber;
+            //                user.Email = userProfileDto.Email;
+
+            //                var imageUpload = await _imageHelper.Upload($"{userProfileDto.FirstName}{userProfileDto.LastName}", userProfileDto.Photo, ImageType.User);
+            //                Image image = new(imageUpload.FullName, userProfileDto.Photo.ContentType, user.Email);
+            //                await _unıtOfWork.GetRepository<Image>().AddAsync(image);
+            //                user.ImageID = image.ImageID;
+            //                await _userManager.UpdateAsync(user);
+            //                await _unıtOfWork.SaveAsync();
+            //                _toastNotification.AddSuccessToastMessage("Şifreniz ve Bilgileiniz Başarıyla Değiştirilmiştir.");
+            //                return View();
+            //            }
+            //            else
+            //            {
+            //                result.AddToIdentityModelState(ModelState);
+            //                return View();
+            //            }
+            //        }
+            //        else if (isVierified)
+            //        {
+
+            //            user.FirstName = userProfileDto.FirstName;
+            //            user.LastName = userProfileDto.LastName;
+            //            user.PhoneNumber = userProfileDto.PhoneNumber;
+            //            user.Email = userProfileDto.Email;
+
+            //            var imageUpload = await _imageHelper.Upload($"{userProfileDto.FirstName}{userProfileDto.LastName}", userProfileDto.Photo, ImageType.User);
+            //            Image image = new(imageUpload.FullName, userProfileDto.Photo.ContentType, user.Email);
+            //            await _unıtOfWork.GetRepository<Image>().AddAsync(image);
+            //            user.ImageID = image.ImageID;
+            //            await _userManager.UpdateAsync(user);
+            //            await _unıtOfWork.SaveAsync();
+            //            _toastNotification.AddSuccessToastMessage("Bilgileriniz Başarıyla Değiştirilmiştir.");
+            //            await _userManager.UpdateAsync(user);
+            //            return View();
+            //        }
+            //        else
+            //        {
+            //            _toastNotification.AddErrorToastMessage("Bilgileriniz Güncellenirken Bir Hata Oluştu.");
+            //            return View();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        _toastNotification.AddErrorToastMessage("Güncelleme İşlemi İçin Mevcut Şifrenizi Girmeniz Gerekmektedir...");
+            //        return View();
+            //    }
+
+            //}
+            return View();
         }
     }
 }
