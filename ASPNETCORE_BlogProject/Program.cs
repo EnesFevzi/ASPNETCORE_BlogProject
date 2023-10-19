@@ -90,6 +90,8 @@ namespace ASPNETCORE_BlogProject
                 app.MapControllerRoute(
                  name: "default",
                  pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                //endpoints.MapDefaultControllerRoute();
             });
 			app.Run();
 		}

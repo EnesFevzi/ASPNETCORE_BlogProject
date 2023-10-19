@@ -139,84 +139,31 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            //var user = await _userManager.GetUserAsync(HttpContext.User);
-            //var getImage = await _unıtOfWork.GetRepository<AppUser>().GetAsync(x => x.Id == user.Id,x=>x.Image);
-            //var map = _mapper.Map<UserProfileDto>(user);
-            //map.Image.FileName=getImage.Image.FileName;
+            var profile = await _userService.GetUserProfileAsync();
+            return View(profile);
 
-            //return View(map);
-            return View();
         }
         [HttpPost]
         public async Task<IActionResult> Profile(UserProfileDto userProfileDto)
         {
-            //var user = await _userManager.GetUserAsync(HttpContext.User);
-            //if (ModelState.IsValid)
-            //{
-            //    if (userProfileDto.CurrentPassword != null)
-            //    {
-            //        var isVierified = await _userManager.CheckPasswordAsync(user, userProfileDto.CurrentPassword);
-            //        if (isVierified && userProfileDto.NewPassword != null)
-            //        {
-            //            var result = await _userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
-            //            if (result.Succeeded)
-            //            {
-            //                await _userManager.UpdateSecurityStampAsync(user);
-            //                await _signInManager.SignOutAsync();
-            //                await _signInManager.PasswordSignInAsync(user, userProfileDto.NewPassword, true, false);
 
-            //                user.FirstName = userProfileDto.FirstName;
-            //                user.LastName = userProfileDto.LastName;
-            //                user.PhoneNumber = userProfileDto.PhoneNumber;
-            //                user.Email = userProfileDto.Email;
-
-            //                var imageUpload = await _imageHelper.Upload($"{userProfileDto.FirstName}{userProfileDto.LastName}", userProfileDto.Photo, ImageType.User);
-            //                Image image = new(imageUpload.FullName, userProfileDto.Photo.ContentType, user.Email);
-            //                await _unıtOfWork.GetRepository<Image>().AddAsync(image);
-            //                user.ImageID = image.ImageID;
-            //                await _userManager.UpdateAsync(user);
-            //                await _unıtOfWork.SaveAsync();
-            //                _toastNotification.AddSuccessToastMessage("Şifreniz ve Bilgileiniz Başarıyla Değiştirilmiştir.");
-            //                return View();
-            //            }
-            //            else
-            //            {
-            //                result.AddToIdentityModelState(ModelState);
-            //                return View();
-            //            }
-            //        }
-            //        else if (isVierified)
-            //        {
-
-            //            user.FirstName = userProfileDto.FirstName;
-            //            user.LastName = userProfileDto.LastName;
-            //            user.PhoneNumber = userProfileDto.PhoneNumber;
-            //            user.Email = userProfileDto.Email;
-
-            //            var imageUpload = await _imageHelper.Upload($"{userProfileDto.FirstName}{userProfileDto.LastName}", userProfileDto.Photo, ImageType.User);
-            //            Image image = new(imageUpload.FullName, userProfileDto.Photo.ContentType, user.Email);
-            //            await _unıtOfWork.GetRepository<Image>().AddAsync(image);
-            //            user.ImageID = image.ImageID;
-            //            await _userManager.UpdateAsync(user);
-            //            await _unıtOfWork.SaveAsync();
-            //            _toastNotification.AddSuccessToastMessage("Bilgileriniz Başarıyla Değiştirilmiştir.");
-            //            await _userManager.UpdateAsync(user);
-            //            return View();
-            //        }
-            //        else
-            //        {
-            //            _toastNotification.AddErrorToastMessage("Bilgileriniz Güncellenirken Bir Hata Oluştu.");
-            //            return View();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        _toastNotification.AddErrorToastMessage("Güncelleme İşlemi İçin Mevcut Şifrenizi Girmeniz Gerekmektedir...");
-            //        return View();
-            //    }
-
-            //}
-            return View();
+            if (ModelState.IsValid)
+            {
+                var result = await _userService.UserProfileUpdateAsync(userProfileDto);
+                if (result)
+                {
+                    _toastNotification.AddSuccessToastMessage("Profil güncelleme işlemi tamamlandı", new ToastrOptions { Title = "İşlem Başarılı" });
+                    return RedirectToAction("Index", "Home", new { Area = "Admin" });
+                }
+                else
+                {
+                    var profile = await _userService.GetUserProfileAsync();
+                    _toastNotification.AddErrorToastMessage("Profil güncelleme işlemi tamamlanamadı", new ToastrOptions { Title = "İşlem Başarısız" });
+                    return View(profile);
+                }
+            }
+            else
+                return NotFound();
         }
     }
 }

@@ -1,11 +1,14 @@
 ﻿using ASPNETCORE_BlogProject.Data.UnıtOfWorks;
 using ASPNETCORE_BlogProject.Dto.DTO_s.Users;
 using ASPNETCORE_BlogProject.Entity.Entities;
+using ASPNETCORE_BlogProject.Entity.Enums;
+using ASPNETCORE_BlogProject.Service.Extensions;
 using ASPNETCORE_BlogProject.Service.Helpers.Images;
 using ASPNETCORE_BlogProject.Service.Services.Abstract;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -87,9 +90,13 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             return await _userManager.FindByIdAsync(userId.ToString());
         }
 
-        public Task<UserProfileDto> GetUserProfileAsync()
+        public async Task<UserProfileDto> GetUserProfileAsync()
         {
-            throw new NotImplementedException();
+            var userID = _user.GetLoggedInUserId();
+            var getImage = await _unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Id == userID, x => x.Image);
+            var map = _mapper.Map<UserProfileDto>(getImage);
+            map.Image.FileName = getImage.Image.FileName;
+            return map;
         }
 
         public async Task<string> GetUserRoleAsync(AppUser user)
@@ -113,10 +120,76 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             else
                 return result;
         }
-
-        public Task<bool> UserProfileUpdateAsync(UserProfileDto userProfileDto)
+        private async Task<Guid> UploadImageForUser(UserProfileDto userProfileDto)
         {
-            throw new NotImplementedException();
+            var userEmail = _user.GetLoggedInEmail();
+
+            var imageUpload = await _imageHelper.Upload($"{userProfileDto.FirstName}{userProfileDto.LastName}", userProfileDto.Photo, ImageType.User);
+            Image image = new(imageUpload.FullName, userProfileDto.Photo.ContentType, userEmail);
+            await _unitOfWork.GetRepository<Image>().AddAsync(image);
+
+            return image.ImageID;
+        }
+
+        public async Task<bool> UserProfileUpdateAsync(UserProfileDto userProfileDto)
+        {
+            var userId = _user.GetLoggedInUserId();
+            var user = await GetAppUserByIdAsync(userId);
+
+            if (userProfileDto.CurrentPassword != null)
+            {
+                var isVerified = await _userManager.CheckPasswordAsync(user, userProfileDto.CurrentPassword);
+                if (isVerified && userProfileDto.NewPassword != null)
+                {
+                    var result = await _userManager.ChangePasswordAsync(user, userProfileDto.CurrentPassword, userProfileDto.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        await _userManager.UpdateSecurityStampAsync(user);
+                        await _signInManager.SignOutAsync();
+                        await _signInManager.PasswordSignInAsync(user, userProfileDto.NewPassword, true, false);
+
+                        _mapper.Map(userProfileDto, user);
+
+                        if (userProfileDto.Photo != null)
+                            user.ImageID = await UploadImageForUser(userProfileDto);
+
+                        await _userManager.UpdateAsync(user);
+                        await _unitOfWork.SaveAsync();
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else if (isVerified)
+                {
+                    await _userManager.UpdateSecurityStampAsync(user);
+                    _mapper.Map(userProfileDto, user);
+
+                    if (userProfileDto.Photo != null)
+                        user.ImageID = await UploadImageForUser(userProfileDto);
+
+                    await _userManager.UpdateAsync(user);
+                    await _unitOfWork.SaveAsync();
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else 
+            { 
+                return false; 
+            }
+
+
+
+
+
+
+
+
+            
         }
     }
 }
+

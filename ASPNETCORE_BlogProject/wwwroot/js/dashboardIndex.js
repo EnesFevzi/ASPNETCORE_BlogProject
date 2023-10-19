@@ -5,6 +5,22 @@ $(document).ready(function () {
     var yearlyArticlesUrl = app.Urls.yearlyArticlesUrl;
     var totalArticleCountUrl = app.Urls.totalArticleCountUrl;
     var totalCategoryCountUrl = app.Urls.totalCategoryCountUrl;
+    var totalUserCountUrl = app.Urls.totalUserCountUrl;
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: totalUserCountUrl,
+            dataType: "json",
+            success: function (data) {
+                $("h3#toplamUserCount").append(data);
+            },
+            error: function () {
+                toastr.error("Kullanıcı Sayısı yüklenirken hata oluştu", "Hata");
+            }
+        });
+    });
+
 
     $.ajax({
         type: "GET",
@@ -30,6 +46,7 @@ $(document).ready(function () {
         }
 
     });
+    
 
     $.ajax({
         type: "GET",
