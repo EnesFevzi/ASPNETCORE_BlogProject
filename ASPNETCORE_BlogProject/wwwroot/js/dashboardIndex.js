@@ -5,22 +5,7 @@ $(document).ready(function () {
     var yearlyArticlesUrl = app.Urls.yearlyArticlesUrl;
     var totalArticleCountUrl = app.Urls.totalArticleCountUrl;
     var totalCategoryCountUrl = app.Urls.totalCategoryCountUrl;
-    var totalUserCountUrl = app.Urls.totalUserCountUrl;
-
-    $(document).ready(function () {
-        $.ajax({
-            type: "GET",
-            url: totalUserCountUrl,
-            dataType: "json",
-            success: function (data) {
-                $("h3#toplamUserCount").append(data);
-            },
-            error: function () {
-                toastr.error("Kullanıcı Sayısı yüklenirken hata oluştu", "Hata");
-            }
-        });
-    });
-
+    //var toplamUserCountUrl = app.Urls.toplamUserCountUrl;
 
     $.ajax({
         type: "GET",
@@ -34,6 +19,19 @@ $(document).ready(function () {
         }
 
     });
+
+    //$.ajax({
+    //    type: "GET",
+    //    url: toplamUserCountUrl,
+    //    dataType: "json",
+    //    success: function (data) {
+    //        $("#toplamUserCount").append(data);
+    //    },
+    //    error: function () {
+    //        toastr.error("Makale Analizleri yüklenirken hata oluştu", "Hata");
+    //    }
+
+    //});
     $.ajax({
         type: "GET",
         url: totalCategoryCountUrl,
@@ -46,11 +44,11 @@ $(document).ready(function () {
         }
 
     });
-    
+
 
     $.ajax({
         type: "GET",
-        url : yearlyArticlesUrl,
+        url: yearlyArticlesUrl,
         dataType: "json",
         success: function (data) {
             var parsedData = JSON.parse(data);

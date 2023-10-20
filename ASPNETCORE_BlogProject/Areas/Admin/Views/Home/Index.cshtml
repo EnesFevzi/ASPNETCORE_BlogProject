@@ -46,7 +46,6 @@
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <i style="height:30px; font-size:2.25rem" class="menu-icon bx bx-category"></i>
-
                                 </div>
                                 <span class="fw-semibold d-block mb-1">Toplam Eklenen <br /> Kategori Sayısı</span>
                                 <h3 class="card-title text-nowrap mb-1" id="totalCategoryCount"></h3>
@@ -70,15 +69,14 @@
             <!--/ Total Revenue -->
             <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
                 <div class="row">
-                    <div class="col-6 mb-4">
+                    <div class="col-lg-6 col-md-12 col-6 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <i style="height:30px; font-size:2.25rem" class="menu-icon bx bx-user-circle"></i>
-
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Toplam<br /> Kullanıcı Sayısı</span>
-                                <h3 class="card-title text-nowrap mb-1" id="toplamUserCount"></h3>
+                                <span class="fw-semibold d-block mb-1">Toplam  <br /> Kullanıcı Sayısı</span>
+                                <h3 class="card-title text-nowrap mb-1" id="totalUserCounts" data-url="@Url.Action("TotalUserCounts", "Home")"></h3>
                                 <small class="text-success fw-semibold"></small>
                             </div>
                         </div>
@@ -410,17 +408,19 @@
     <div class="content-backdrop fade"></div>
 </div>
 
+
 @section Scripts{
     <script src="~/js/dashboardIndex.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/dashboardScript.js"></script>
     <script>
+
         var app = app || {}
         app.Urls = app.Urls || {}
-
-        app.Urls.totalUserCountUrl = "@(Url.Action("TotalUserCount", "Home"))";
         app.Urls.yearlyArticlesUrl = "@(Url.Action("YearlyArticleCounts", "Home"))";
         app.Urls.totalArticleCountUrl = "@(Url.Action("TotalArticleCount", "Home"))";
         app.Urls.totalCategoryCountUrl = "@(Url.Action("TotalCategoryCount", "Home"))";
-        
+          // app.Urls.totalUserCountUrl = "@(Url.Action("TotalUserCounts", "Home"))";
     </script>
 }

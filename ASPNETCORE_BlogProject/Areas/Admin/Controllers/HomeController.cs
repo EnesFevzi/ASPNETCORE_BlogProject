@@ -49,7 +49,7 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> TotalUserCount()
+        public async Task<IActionResult> TotalUserCounts()
         {
             var count = await _dashbordService.GetTotalUserCount();
             return Json(count);
