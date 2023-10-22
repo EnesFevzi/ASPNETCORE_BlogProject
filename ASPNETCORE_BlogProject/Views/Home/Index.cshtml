@@ -21,9 +21,14 @@
                                             <li>@item.CreatedDate.ToString("dd/MM/yyyy")</li>
                                             <li><i class="fa-solid fa-eye"></i> @item.ViewCount</li>
                                         </ul>
-                                        <p>
-                                            @(item.Content.Length > 280 ? item.Content.Substring(0, 280) : item.Content) ...
-                                        </p>
+
+                                        @foreach (var paragraph in item.Content.Substring(0, 200).Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                                                            {
+                                            <p>
+                                                @(paragraph.Length > 280 ? paragraph.Substring(0, 280) + " ..." : paragraph)
+                                            </p>
+                                        }
+                                        
                                         <div class="post-options">
                                             <div class="row">
                                                 <div class="col-6">

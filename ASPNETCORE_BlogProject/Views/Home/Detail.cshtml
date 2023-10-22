@@ -8,7 +8,6 @@
                 <div class="all-blog-posts">
                     <div class="row">
                         <div class="col-lg-12">
-
                             <div class="blog-post">
                                 <div class="blog-thumb">
                                     <img src="~/images/@Model.Image.FileName" alt="">
@@ -20,9 +19,10 @@
                                         <li>@Model.CreatedDate.ToString("dd/MM/yyyy")</li>
                                         <li><i class="fa-solid fa-eye"></i> @Model.ViewCount</li>
                                     </ul>
-                                    <p>
-                                        @Model.Content
-                                    </p>
+                                    @foreach (var paragraph in Model.Content.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <p>@paragraph</p>
+                                    }
                                     <div class="post-options">
                                         <div class="row">
                                             <div class="col-6">
