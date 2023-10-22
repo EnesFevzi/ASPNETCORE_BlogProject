@@ -1,6 +1,12 @@
 # ASPNETCORE_BlogProject
 
 
+
+
+https://github.com/EnesFevzi/ASPNETCORE_BlogProject/assets/118919666/ae7c3dca-f053-457d-8565-4af84104aa40
+
+
+
 ![loginpage](https://github.com/EnesFevzi/ASPNETCORE_BlogProject/assets/118919666/d287855d-8921-49e4-be3c-f22376dbe1c4)
 
 
