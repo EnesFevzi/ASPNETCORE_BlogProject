@@ -1,22 +1,21 @@
 ﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Users;
 using ASPNETCORE_BlogProject.Entity.Entities;
-using ASPNETCORE_BlogProject.Entity.Enums;
 using ASPNETCORE_BlogProject.Service.Extensions;
 using ASPNETCORE_BlogProject.Service.Services.Abstract;
-using ASPNETCORE_BlogProject.Service.Services.Concrete;
+using ASPNETCORE_BlogProject.Web.Consts;
 using ASPNETCORE_BlogProject.Web.ResultMessages;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
-using System.ComponentModel.DataAnnotations;
-using static ASPNETCORE_BlogProject.Web.ResultMessages.Messages;
 
 namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+   
     public class UserController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -36,13 +35,14 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             _userService = userService;
 
         }
-
+        [Authorize(Roles = $"{RoleConsts.Superadmin}")]
         public async Task<IActionResult> Index()
         {
             var result = await _userService.GetAllUsersWithRoleAsync();
             return View(result);
         }
         [HttpGet]
+        [Authorize(Roles = $"{RoleConsts.Superadmin}")]
         public async Task<IActionResult> Add()
         {
             var roles = await _userService.GetAllRolesAsync();
@@ -50,12 +50,13 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             return View(new UserAddDto { Roles = roles });
         }
         [HttpPost]
+        [Authorize(Roles = $"{RoleConsts.Superadmin}")]
         public async Task<IActionResult> Add(UserAddDto userAddDto)
         {
             var map = _mapper.Map<AppUser>(userAddDto);
             var validation = await _validator.ValidateAsync(map);
             var roles = await _roleManager.Roles.ToListAsync();
-            if (ModelState.IsValid)
+            if (validation.IsValid)
             {
                 var result = await _userService.CreateUserAsync(userAddDto);
                 if (result.Succeeded)
@@ -74,6 +75,7 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             return View(new UserAddDto { Roles = roles });
         }
         [HttpGet]
+        [Authorize(Roles = $"{RoleConsts.Superadmin}")]
         public async Task<IActionResult> Update(int userId)
         {
             var user = await _userService.GetAppUserByIdAsync(userId);
@@ -83,6 +85,7 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             return View(map);
         }
         [HttpPost]
+        [Authorize(Roles = $"{RoleConsts.Superadmin}")]
         public async Task<IActionResult> Update(UserUpdateDto userUpdateDto)
         {
             var user = await _userService.GetAppUserByIdAsync(userUpdateDto.Id);
@@ -120,6 +123,7 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             }
             return NotFound();
         }
+        [Authorize(Roles = $"{RoleConsts.Superadmin}")]
         public async Task<IActionResult> Delete(int userId)
         {
             var result = await _userService.DeleteUserAsync(userId);
@@ -137,6 +141,7 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = $"{RoleConsts.Superadmin}, {RoleConsts.Admin}, {RoleConsts.User}")]
         public async Task<IActionResult> Profile()
         {
             var profile = await _userService.GetUserProfileAsync();
@@ -144,6 +149,7 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
 
         }
         [HttpPost]
+        [Authorize(Roles = $"{RoleConsts.Superadmin}, {RoleConsts.Admin}, {RoleConsts.User}")]
         public async Task<IActionResult> Profile(UserProfileDto userProfileDto)
         {
 

@@ -18,8 +18,10 @@ namespace ASPNETCORE_BlogProject.Service.FluentValidations
                 .NotEmpty()
                 .NotNull()
                 .MinimumLength(3)
-                .MaximumLength(150)
+                .MaximumLength(3000)
                 .WithName("İçerik");
+
+
         }
     }
 }

@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCORE_BlogProject.Web", "ASPNETCORE_BlogProject\ASPNETCORE_BlogProject.Web.csproj", "{5D440AB2-108A-48C1-A107-367485790D01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCORE_BlogProject.Web", "ASPNETCORE_BlogProject\ASPNETCORE_BlogProject.Web.csproj", "{5D440AB2-108A-48C1-A107-367485790D01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCORE_BlogProject.Entity", "ASPNETCORE_BlogProject.Entity\ASPNETCORE_BlogProject.Entity.csproj", "{D1780F9D-7027-485C-8AED-109D7C94C39B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCORE_BlogProject.Entity", "ASPNETCORE_BlogProject.Entity\ASPNETCORE_BlogProject.Entity.csproj", "{D1780F9D-7027-485C-8AED-109D7C94C39B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCORE_BlogProject.Data", "ASPNETCORE_BlogProject.Data\ASPNETCORE_BlogProject.Data.csproj", "{A89CC2D7-BF95-4EEC-9A4B-3D30DB561EE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCORE_BlogProject.Data", "ASPNETCORE_BlogProject.Data\ASPNETCORE_BlogProject.Data.csproj", "{A89CC2D7-BF95-4EEC-9A4B-3D30DB561EE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCORE_BlogProject.Service", "ASPNETCORE_BlogProject.Service\ASPNETCORE_BlogProject.Service.csproj", "{145003C8-66D8-4B9E-B4BE-031576761B94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCORE_BlogProject.Service", "ASPNETCORE_BlogProject.Service\ASPNETCORE_BlogProject.Service.csproj", "{145003C8-66D8-4B9E-B4BE-031576761B94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCORE_BlogProject.Core", "ASPNETCORE_BlogProject.Core\ASPNETCORE_BlogProject.Core.csproj", "{006B7CE5-F939-4BE0-BF1D-2EE01792B94B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCORE_BlogProject.Core", "ASPNETCORE_BlogProject.Core\ASPNETCORE_BlogProject.Core.csproj", "{006B7CE5-F939-4BE0-BF1D-2EE01792B94B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ASPNETCORE_BlogProject.Dto", "ASPNETCORE_BlogProject.Dto\ASPNETCORE_BlogProject.Dto.csproj", "{C4CF99B8-C2ED-4DB2-852A-354FFC3B445F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ASPNETCORE_BlogProject.Dto", "ASPNETCORE_BlogProject.Dto\ASPNETCORE_BlogProject.Dto.csproj", "{C4CF99B8-C2ED-4DB2-852A-354FFC3B445F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

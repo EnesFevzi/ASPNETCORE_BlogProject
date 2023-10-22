@@ -26,6 +26,7 @@ namespace ASPNETCORE_BlogProject.Service.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IDashbordService, DashboardService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddAutoMapper(assembly);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

@@ -28,6 +28,10 @@ namespace ASPNETCORE_BlogProject.Service.FluentValidations
              .NotEmpty()
              .MinimumLength(11)
              .WithName("Telefon numarası");
+
+            RuleFor(x => x.Image)
+             .NotEmpty()
+             .WithName("Profil Fotoğrafı");
         }
     }
 }

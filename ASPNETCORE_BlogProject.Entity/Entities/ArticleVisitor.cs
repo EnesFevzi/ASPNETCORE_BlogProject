@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace ASPNETCORE_BlogProject.Entity.Entities
 {
-	public class ArticleVisitor
-
-
+	public class ArticleVisitor:IEntityBase
 	{
         public ArticleVisitor() 
         { 

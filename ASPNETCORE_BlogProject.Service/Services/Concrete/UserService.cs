@@ -4,13 +4,14 @@ using ASPNETCORE_BlogProject.Entity.Entities;
 using ASPNETCORE_BlogProject.Entity.Enums;
 using ASPNETCORE_BlogProject.Service.Extensions;
 using ASPNETCORE_BlogProject.Service.Helpers.Images;
+using ASPNETCORE_BlogProject.Service.Models;
 using ASPNETCORE_BlogProject.Service.Services.Abstract;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using System.Xml.Linq;
 
 namespace ASPNETCORE_BlogProject.Service.Services.Concrete
 {
@@ -98,6 +99,17 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             map.Image.FileName = getImage.Image.FileName;
             return map;
         }
+        public async Task<UserListDto> GetUserProfileAsyncWitRoleAsync()
+        {
+            var userID = _user.GetLoggedInUserId();
+            var user = await GetAppUserByIdAsync(userID);
+            var getImage = await _unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Id == userID, x => x.Image);
+            var role = string.Join("", await GetUserRoleAsync(user));
+            var map = _mapper.Map<UserListDto>(getImage);
+            map.Image.FileName = getImage.Image.FileName;
+            map.Role = role;
+            return map;
+        }
 
         public async Task<string> GetUserRoleAsync(AppUser user)
         {
@@ -176,20 +188,48 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
                 else
                     return false;
             }
-            else 
-            { 
-                return false; 
+            else
+            {
+                return false;
             }
 
 
-
-
-
-
-
-
-            
         }
+
+        public async Task<WeatherInfo> GetWeatherInfo()
+        {
+            string api = "64d476e683236d625b8f0a39392c240a";
+            string connection = "https://api.openweathermap.org/data/2.5/weather?q=istanbul&mode=xml&lang=tr&units=metric&appid=" + api;
+            XDocument document = XDocument.Load(connection);
+            var temperature = double.Parse(document.Descendants("temperature").ElementAt(0).Attribute("value").Value);
+
+            string condition = string.Empty;
+
+            if (temperature >= 30)
+            {
+                condition = "Bugün hava çok sıcak!";
+            }
+            else if (temperature >= 20)
+            {
+                condition = "Bugün hava ılıman.";
+            }
+            else if (temperature >= 10)
+            {
+                condition = "Bugün hava serin.";
+            }
+            else
+            {
+                condition = "Bugün hava soğuk.";
+            }
+
+            return new WeatherInfo
+            {
+                Condition = condition,
+                Temperature = temperature
+            };
+        }
+
+
     }
 }
 

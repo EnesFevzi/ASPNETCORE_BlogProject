@@ -11,6 +11,7 @@ namespace ASPNETCORE_BlogProject.Dto.DTO_s.Articles
         public string Content { get; set; }
         public int CategoryId { get; set; }
 
+        public Guid? ImageID { get; set; }
         public Image Image { get; set; }
         public IFormFile? Photo { get; set; }
 

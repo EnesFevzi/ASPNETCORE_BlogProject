@@ -1,11 +1,7 @@
 ﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Users;
 using ASPNETCORE_BlogProject.Entity.Entities;
+using ASPNETCORE_BlogProject.Service.Models;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ASPNETCORE_BlogProject.Service.Services.Abstract
 {
@@ -19,6 +15,8 @@ namespace ASPNETCORE_BlogProject.Service.Services.Abstract
         Task<AppUser> GetAppUserByIdAsync(int userId);
         Task<string> GetUserRoleAsync(AppUser user);
         Task<UserProfileDto> GetUserProfileAsync();
+        Task<UserListDto> GetUserProfileAsyncWitRoleAsync();
         Task<bool> UserProfileUpdateAsync(UserProfileDto userProfileDto);
+        Task<WeatherInfo> GetWeatherInfo();
     }
 }

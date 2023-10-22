@@ -1,6 +1,6 @@
-﻿using ASPNETCORE_BlogProject.Dto.DTO_s.Users;
+﻿using ASPNETCORE_BlogProject.Data.UnıtOfWorks;
 using ASPNETCORE_BlogProject.Entity.Entities;
-using ASPNETCORE_BlogProject.Web.DtoS.LoginDto;
+using ASPNETCORE_BlogProject.Service.Services.Abstract;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,23 +9,20 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.ViewComponents
 {
     public class DashboardHeaderViewComponent : ViewComponent
     {
-        private readonly UserManager<AppUser> userManager;
-        private readonly IMapper mapper;
 
-        public DashboardHeaderViewComponent(UserManager<AppUser> userManager, IMapper mapper)
+        private readonly IUserService userService;
+
+
+        public DashboardHeaderViewComponent( IUserService userService)
         {
-            this.userManager = userManager;
-            this.mapper = mapper;
+
+            this.userService = userService;
+
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var loggedInUser = await userManager.GetUserAsync(HttpContext.User);
-            var map = mapper.Map<UserListDto>(loggedInUser);
-
-            var role = string.Join("", await userManager.GetRolesAsync(loggedInUser));
-            map.Role = role;
-
-            return View(map);
+            var user = await userService.GetUserProfileAsyncWitRoleAsync();
+            return View(user);
         }
     }
 }

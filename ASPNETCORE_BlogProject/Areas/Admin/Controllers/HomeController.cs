@@ -1,6 +1,7 @@
 ﻿using ASPNETCORE_BlogProject.Entity.Entities;
 using ASPNETCORE_BlogProject.Service.Services.Abstract;
 using ASPNETCORE_BlogProject.Service.Services.Concrete;
+using ASPNETCORE_BlogProject.Web.Consts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ using Newtonsoft.Json;
 namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = $"{RoleConsts.Superadmin}, {RoleConsts.Admin}, {RoleConsts.User}")]
     public class HomeController : Controller
     {
         private readonly IArticleService _articleService;
@@ -25,8 +26,8 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var articles = await _articleService.GetAllArticlesWithCategoryDeletedAsync();
-            var loggedInUser= await _userManager.GetUserAsync(HttpContext.User);
+            var articles = await _articleService.GetAllArticlesWithCategoryNonDeletedAsync();
+
             return View(articles);
         }
         [HttpGet]

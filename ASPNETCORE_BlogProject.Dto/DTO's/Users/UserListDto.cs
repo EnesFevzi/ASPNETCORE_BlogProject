@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ASPNETCORE_BlogProject.Entity.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,7 @@ namespace ASPNETCORE_BlogProject.Dto.DTO_s.Users
         public string PhoneNumber { get; set; }
         public int AccessFailedCount { get; set; }
         public string Role { get; set; }
+        public Guid ImageID { get; set; }
+        public Image Image { get; set; }
     }
 }

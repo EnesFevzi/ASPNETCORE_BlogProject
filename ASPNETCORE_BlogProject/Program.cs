@@ -3,6 +3,7 @@ using ASPNETCORE_BlogProject.Data.Extensions;
 using ASPNETCORE_BlogProject.Entity.Entities;
 using ASPNETCORE_BlogProject.Service.Describers;
 using ASPNETCORE_BlogProject.Service.Extensions;
+using ASPNETCORE_BlogProject.Web.Filter.ArticleVisitors;
 using ASPNETCORE_BlogProject.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,27 +12,28 @@ using System.Reflection;
 
 namespace ASPNETCORE_BlogProject
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
             builder.Services.AddHttpClient();
             builder.Services.AddAuthorization();
-         
-            builder.Services.AddControllersWithViews();
-			builder.Services.LoadDataLayerExtension(builder.Configuration);
+
+            builder.Services.LoadDataLayerExtension(builder.Configuration);
             builder.Services.LoadServiceLayerExtension();
             builder.Services.AddSession();
-            builder.Services.AddControllersWithViews()
-
-                 .AddNToastNotifyToastr(new ToastrOptions()
-                 {
-                     PositionClass = ToastPositions.TopRight,
-                     TimeOut = 3000,
-                 })
+            builder.Services.AddControllersWithViews(opt =>
+            {
+                opt.Filters.Add<ArticleVisitorFilter>();
+            })
+                  .AddNToastNotifyToastr(new ToastrOptions()
+                  {
+                      PositionClass = ToastPositions.TopRight,
+                      TimeOut = 3000,
+                  })
              .AddRazorRuntimeCompilation();
 
             builder.Services.AddIdentity<AppUser, AppRole>(opt =>
@@ -68,32 +70,31 @@ namespace ASPNETCORE_BlogProject
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-				app.UseHsts();
-			}
+                app.UseHsts();
+            }
             app.UseNToastNotify();
-			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-			app.UseRouting();
+            app.UseRouting();
             app.UseSession();
             app.UseAuthentication();
-			app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
                 name: "Admin",
                 areaName: "Admin",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                pattern: "{area:exists}/{controller=Home1}/{action=Index}/{id?}"
                 );
+                //endpoints.MapControllerRoute(
+                //   name: "default",
+                //   pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                app.MapControllerRoute(
-                 name: "default",
-                 pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                //endpoints.MapDefaultControllerRoute();
+                endpoints.MapDefaultControllerRoute();
             });
-			app.Run();
-		}
-	}
+            app.Run();
+        }
+    }
 }

@@ -4,9 +4,11 @@ using ASPNETCORE_BlogProject.Entity.Entities;
 using ASPNETCORE_BlogProject.Service.Extensions;
 using ASPNETCORE_BlogProject.Service.Services.Abstract;
 using ASPNETCORE_BlogProject.Service.Services.Concrete;
+using ASPNETCORE_BlogProject.Web.Consts;
 using ASPNETCORE_BlogProject.Web.ResultMessages;
 using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using System.ComponentModel.DataAnnotations;
@@ -14,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{RoleConsts.Superadmin}, {RoleConsts.Admin}, {RoleConsts.User}")]
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
@@ -28,6 +31,7 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             _toastNotification = toastNotification;
             _validator = validator;
         }
+
         public async Task<IActionResult> Index()
         {
             var categories = await _categoryService.GetAllCategoriesNonDeleted();

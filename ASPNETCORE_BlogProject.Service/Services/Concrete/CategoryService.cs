@@ -51,9 +51,11 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             return map;
         }
 
-        public Task<List<CategoryDto>> GetAllCategoriesNonDeletedTake24()
+        public async Task<List<CategoryDto>> GetAllCategoriesNonDeletedTake24()
         {
-            throw new NotImplementedException();
+            var categories = await _unıtOfWork.GetRepository<Category>().GetAllAsync(x => !x.IsDeleted);
+            var map = _mapper.Map<List<CategoryDto>>(categories);
+            return map.Take(24).ToList();
         }
 
         public async Task<CategoryDto> GetCategoryByID(int id)

@@ -5,8 +5,6 @@ $(document).ready(function () {
     var yearlyArticlesUrl = app.Urls.yearlyArticlesUrl;
     var totalArticleCountUrl = app.Urls.totalArticleCountUrl;
     var totalCategoryCountUrl = app.Urls.totalCategoryCountUrl;
-    //var toplamUserCountUrl = app.Urls.toplamUserCountUrl;
-
     $.ajax({
         type: "GET",
         url: totalArticleCountUrl,
@@ -20,18 +18,13 @@ $(document).ready(function () {
 
     });
 
-    //$.ajax({
-    //    type: "GET",
-    //    url: toplamUserCountUrl,
-    //    dataType: "json",
-    //    success: function (data) {
-    //        $("#toplamUserCount").append(data);
-    //    },
-    //    error: function () {
-    //        toastr.error("Makale Analizleri yüklenirken hata oluştu", "Hata");
-    //    }
 
-    //});
+
+
+
+
+
+   
     $.ajax({
         type: "GET",
         url: totalCategoryCountUrl,
