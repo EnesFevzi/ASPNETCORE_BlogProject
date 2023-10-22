@@ -181,7 +181,7 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
 
         public async Task<ArticleDto> GetArticleDetailAsync(int articleId, string ipAddress)
         {
-            var article = await _unitofWork.GetRepository<Article>().GetAsync(x => x.ArticleID == articleId);
+            var article = await _unitofWork.GetRepository<Article>().GetAsync(x => x.ArticleID == articleId, x => x.User);
             var visitor = await _unitofWork.GetRepository<Visitor>().GetAsync(x => x.IpAddress == ipAddress);
 
             if (article == null)
@@ -206,7 +206,7 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
 
         public async Task<List<ArticleDto>> GetAllArticlesNonDeletedTake3Async()
         {
-            var articles = await _unitofWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted,x=>x.Image);
+            var articles = await _unitofWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted, x => x.Image);
             var random = new Random();
             var randomArticles = articles.OrderBy(a => random.Next()).Take(3).ToList();
             var map = _mapper.Map<List<ArticleDto>>(randomArticles);

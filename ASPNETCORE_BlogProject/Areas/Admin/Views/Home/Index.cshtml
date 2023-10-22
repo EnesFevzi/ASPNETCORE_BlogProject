@@ -85,23 +85,13 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
-                                    <div class="avatar flex-shrink-0">
-                                        <img src="~/sneat/assets/img/icons/unicons/cc-primary.png" alt="Credit Card" class="rounded">
-                                    </div>
-                                    <div class="dropdown">
-                                        <button class="btn p-0" type="button" id="cardOpt1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                                            <a class="dropdown-item" href="javascript:void(0);">View More</a>
-                                            <a class="dropdown-item" href="javascript:void(0);">Delete</a>
-                                        </div>
-                                    </div>
+                                    <i style="height:30px; font-size:2.25rem" class="menu-icon bx bx-captions"></i>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Transactions</span>
-                                <h3 class="card-title mb-2">$14,857</h3>
-                                <small class="text-success fw-semibold"><i class='bx bx-up-arrow-alt'></i> +28.14%</small>
+                                <span class="fw-semibold d-block mb-1">Toplam  <br /> Rol Sayısı</span>
+                                <h3 class="card-title text-nowrap mb-1" id="toplamRolSayisi" data-url="@Url.Action("TotalRoleCounts", "Home")"></h3>
+                                <small class="text-success fw-semibold"></small>
                             </div>
+                        </div>
                         </div>
                     </div>
                     <!-- </div>
@@ -111,13 +101,13 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between flex-sm-row flex-column gap-3">
                                     <div class="d-flex flex-sm-column flex-row align-items-start justify-content-between">
-                                        <div class="card-title">
-                                            <h5 class="text-nowrap mb-2">Profile Report</h5>
-                                            <span class="badge bg-label-warning rounded-pill">Year 2021</span>
+                                        <div class="card-title" style="height:110px">
+                                           @*  <h5 class="text-nowrap mb-2">Profile Report</h5>
+                                            <span class="badge bg-label-warning rounded-pill">Year 2021</span> *@
                                         </div>
                                         <div class="mt-sm-auto">
-                                            <small class="text-success text-nowrap fw-semibold"><i class='bx bx-chevron-up'></i> 68.2%</small>
-                                            <h3 class="mb-0">$84,686k</h3>
+                                           @*  <small class="text-success text-nowrap fw-semibold"><i class='bx bx-chevron-up'></i> 68.2%</small>
+                                            <h3 class="mb-0">$84,686k</h3> *@
                                         </div>
                                     </div>
                                     <div id="profileReportChart"></div>
@@ -133,11 +123,11 @@
             <div class="col-md-6 col-lg-4 col-xl-4 order-0 mb-4">
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center justify-content-between pb-0">
-                        <div class="card-title mb-0">
+                        @* <div class="card-title mb-0">
                             <h5 class="m-0 me-2">Order Statistics</h5>
                             <small class="text-muted">42.82k Total Sales</small>
-                        </div>
-                        <div class="dropdown">
+                        </div> *@
+                        @* <div class="dropdown">
                             <button class="btn p-0" type="button" id="orederStatistics" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bx bx-dots-vertical-rounded"></i>
                             </button>
@@ -146,17 +136,17 @@
                                 <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
                                 <a class="dropdown-item" href="javascript:void(0);">Share</a>
                             </div>
-                        </div>
+                        </div> *@
                     </div>
                     <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
+                        @* <div class="d-flex justify-content-between align-items-center mb-3">
                             <div class="d-flex flex-column align-items-center gap-1">
                                 <h2 class="mb-2">8,258</h2>
                                 <span>Total Orders</span>
                             </div>
                             <div id="orderStatisticsChart"></div>
-                        </div>
-                        <ul class="p-0 m-0">
+                        </div> *@
+                        @* <ul class="p-0 m-0">
                             <li class="d-flex mb-4 pb-1">
                                 <div class="avatar flex-shrink-0 me-3">
                                     <span class="avatar-initial rounded bg-label-primary"><i class='bx bx-mobile-alt'></i></span>
@@ -213,7 +203,7 @@
                                     </div>
                                 </div>
                             </li>
-                        </ul>
+                        </ul> *@
                     </div>
                 </div>
             </div>
@@ -222,7 +212,7 @@
             <div class="col-md-6 col-lg-4 order-1 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
-                        <ul class="nav nav-pills" role="tablist">
+                        @* <ul class="nav nav-pills" role="tablist">
                             <li class="nav-item">
                                 <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-tabs-line-card-income" aria-controls="navs-tabs-line-card-income" aria-selected="true">Income</button>
                             </li>
@@ -232,11 +222,11 @@
                             <li class="nav-item">
                                 <button type="button" class="nav-link" role="tab">Profit</button>
                             </li>
-                        </ul>
+                        </ul> *@
                     </div>
                     <div class="card-body px-0">
                         <div class="tab-content p-0">
-                            <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
+                            @* <div class="tab-pane fade show active" id="navs-tabs-line-card-income" role="tabpanel">
                                 <div class="d-flex p-4 pt-3">
                                     <div class="avatar flex-shrink-0 me-3">
                                         <img src="~/sneat/assets/img/icons/unicons/wallet.png" alt="User">
@@ -262,7 +252,7 @@
                                         <small class="text-muted">$39 less than last week</small>
                                     </div>
                                 </div>
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                 </div>
@@ -271,7 +261,7 @@
             <!-- Transactions -->
             <div class="col-md-6 col-lg-4 order-2 mb-4">
                 <div class="card h-100">
-                    <div class="card-header d-flex align-items-center justify-content-between">
+                    @* <div class="card-header d-flex align-items-center justify-content-between">
                         <h5 class="card-title m-0 me-2">Transactions</h5>
                         <div class="dropdown">
                             <button class="btn p-0" type="button" id="transactionID" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -283,10 +273,10 @@
                                 <a class="dropdown-item" href="javascript:void(0);">Last Year</a>
                             </div>
                         </div>
-                    </div>
+                    </div> *@
                     <div class="card-body">
                         <ul class="p-0 m-0">
-                            <li class="d-flex mb-4 pb-1">
+                            @* <li class="d-flex mb-4 pb-1">
                                 <div class="avatar flex-shrink-0 me-3">
                                     <img src="~/sneat/assets/img/icons/unicons/paypal.png" alt="User" class="rounded">
                                 </div>
@@ -369,7 +359,7 @@
                                         <h6 class="mb-0">-92.45</h6> <span class="text-muted">USD</span>
                                     </div>
                                 </div>
-                            </li>
+                            </li> *@
                         </ul>
                     </div>
                 </div>
@@ -413,6 +403,22 @@
                     toastr.error("Kullanıcı Sayısı yüklenirken hata oluştu", "Hata");
                 }
             });
+
+            var toplam = $("#toplamRolSayisi").data("url");
+            $.ajax({
+                type: "GET",
+                url: toplam,
+                dataType: "json",
+                success: function (data) {
+                    $("#toplamRolSayisi").append(data);
+                },
+                error: function () {
+                    toastr.error("Rol Sayısı yüklenirken hata oluştu", "Hata");
+                }
+            });
+
+
+
         });
 
     </script>

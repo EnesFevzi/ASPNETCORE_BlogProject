@@ -12,5 +12,6 @@ namespace ASPNETCORE_BlogProject.Service.Services.Abstract
         Task<int> GetTotalArticleCount();
         Task<int> GetTotalCategoryCount();
         Task<int> GetTotalUserCount();
+        Task<int> GetTotalRoleCount();
     }
 }

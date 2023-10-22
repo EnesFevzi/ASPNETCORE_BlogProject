@@ -12,7 +12,7 @@
                                 <input type="hidden" id="keyword" value="@Model.CurrentPage" />
                                 <div class="blog-post">
                                     <div class="blog-thumb">
-                                        <img src="~/stand-blog/assets/images/blog-post-01.jpg" alt="">
+                                        <img src="~/images/@item.Image.FileName" alt="">
                                     </div>
                                     <div class="down-content">
                                         <a asp-area=" " asp-controller="Home" asp-action="Detail" asp-route-id="@item.ArticleID"><h4>@item.Title</h4></a>
@@ -91,16 +91,8 @@
 
                         @await Component.InvokeAsync("RecentPost")
 
+                        @await Component.InvokeAsync("HomeCategories")
 
-
-                        <div class="col-lg-12">
-                            <div class="sidebar-item categories">
-                                <div class="sidebar-heading">
-                                    <h2>KATEGORİLER</h2>
-                                </div>
-                                @await Component.InvokeAsync("HomeCategories")
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

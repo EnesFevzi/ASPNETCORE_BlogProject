@@ -55,5 +55,12 @@ namespace ASPNETCORE_BlogProject.Web.Areas.Admin.Controllers
             var count = await _dashbordService.GetTotalUserCount();
             return Json(count);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> TotalRoleCounts()
+        {
+            var count = await _dashbordService.GetTotalRoleCount();
+            return Json(count);
+        }
     }
 }

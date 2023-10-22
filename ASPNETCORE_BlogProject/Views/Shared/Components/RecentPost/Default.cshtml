@@ -7,20 +7,22 @@
         </div>
         <div class="content">
             <ul class="list-group">
-                  @foreach (var article in Model) {
-                <li class="list-group-item">
-                    <a href="post-details.html">
-                    <div class="d-flex">
-                        <img src="~/images/@article.Image.FileName" alt="Article Image" width="100" height="100">
-                            <div class="ms-3">
+                @foreach (var article in Model)
+                {
+                    <li class="list-group-item">
+                        <a asp-area=" " asp-controller="Home" asp-action="Detail" asp-route-id="@article.ArticleID">
+                            <div class="d-flex">
+                                <img src="~/images/@article.Image.FileName" alt="Article Image" width="100" height="80">
+                                <div class="ms-3">
+
                                     <h5>@article.Title</h5>
                                     <span>@article.CreatedDate.ToString("MMMM dd, yyyy")</span>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </li>
+                        </a>
+                    </li>
                 }
-               
+
             </ul>
         </div>
     </div>

@@ -34,7 +34,12 @@ namespace ASPNETCORE_BlogProject.Service.Services.Concrete
             var userCount = await _unıtOfWork.GetRepository<AppUser>().CountAsync();
             return userCount;
         }
-
+        public async Task<int> GetTotalRoleCount()
+        {
+            var userCount = await _unıtOfWork.GetRepository<AppRole>().CountAsync();
+            return userCount;
+        }
+        
         public async Task<List<int>> GetYearlyArticleCounts()
         {
             var articles = await _unıtOfWork.GetRepository<Article>().GetAllAsync(x => !x.IsDeleted);
